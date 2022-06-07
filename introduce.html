@@ -11,10 +11,19 @@
     <h3>20살</h3>
     <h3>010-1234-1234</h3>   
     <a href="index.html">첫페이지</a>
+    <ul id="fruit" style="color: red; background-color: yellow;" >
+        <li>사과</li>
+        <li>바나나</li>
+        <li>체리</li>
+    </ul>
     <script>
         let h3s = document.getElementsByTagName('h3')
         console.log(h3s[0].innerText) /* 홍길동 불러와짐 */
         h3s[0].innerText='hong gil dong'
+
+        let fruit = document.getElementById('fruit');
+        console.log(fruit)
+        fruit.children[0].innerText = 'apple';
     </script>
 </body>
 </html>
