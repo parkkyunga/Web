@@ -33,6 +33,8 @@ let person = {
         return this.fname + ' , ' + this.age + ' , ' + this.height;
     }
 };
+person.weigth = 68.5;
+
 document.write(person.showInfo());
 console.log(person.showInfo());
 console.log(person.fname);
@@ -41,6 +43,26 @@ var field = 'height';
 console.log(person[field]);
 
 //전체필드를 for loop .. in
-for (let field in person){
-    console.log(field,' => ',person[field]);
+//debugger;
+for (let field in person) {
+    console.log(field, ' => ', person[field]);
 }
+//변수:me =>name,hobby,tel,address,introduce()-name,hobby,tel
+let me = {
+    name: 'park kyung a',
+    hobby: 'listen to music',
+    tel: '01012341234',
+    address: '대구광역시',
+    introduce: function () {
+        return '이름 : ' + this.name + ', 취미 : ' + this.hobby + ', 전화번호 : ' + this.tel;
+    },
+    introduce2: function () {
+        for (let f in me) {
+            document.write(me[f] + '-------');
+        }
+    }
+}
+console.log(me.name);
+console.log(me.introduce());
+document.write(me.introduce());
+me.introduce2();
