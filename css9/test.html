@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #wrapper {
+            width: 90%;
+            margin: 0 auto;
+        }
+        nav{
+            width: 100%;
+            height: 70px;
+            background-color: rgb(47, 74, 133);
+            margin: 0 auto;
+        }
+        ul{
+            text-align: center;
+            padding-top: 22px;
+        }
+        li{
+            list-style: none;
+            display: inline;
+        }
+        a:hover{
+            color: rgb(173, 201, 255);
+            opacity: 0.9;
+        }
+        a{
+            text-decoration: none;
+            color: aliceblue;
+            margin-right: 25px;
+            font-weight: bold;
+            font-size: 1.2em;
+            width: 100%;
+            padding: 16px 0;
+        }
+        caption {
+            text-align: left;
+        }
+        table {
+            width: 80%;
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+        td {
+            text-align: right;
+            border: 1px solid #ddd;
+        }
+        th {
+            border: 1px solid #ddd;
+            background-color: rgb(248, 248, 248);
+        }
+        tr {
+            border: 1px solid #ddd;
+        }
+        td,tr,th {
+            padding: 15px;
+        }
+        thead>tr>th{
+            border-top: 1px solid rgb(99, 99, 99);
+        }
+        span{
+            display:inline-block;
+            min-width:19px;
+            min-height:12px;
+            font-size:13px;
+            line-height:21px;
+            color:#fff;
+            text-align:center;
+            border-radius:100%;
+        }
+        span.red{
+            border: 3px solid #dc4c14;
+            background-color: #dc4c14;
+        }
+        span.blue{
+            border: 3px solid #0056af;
+            background-color: #0056af;
+        }
+        #sum{
+            color: rgb(47, 74, 133);
+            font-weight: bold;
+        }
+        @media screen and (max-width:880px) {
+            #tableArea2{
+                overflow-x: auto;
+            }
+        }
+        #navi{
+            top: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        <nav>
+            <ul>
+                <li><a href="#">바로알기</a></li>
+                <li><a href="#">예방접종 현황</a></li>
+                <li><a href="#">이상반응</a></li>
+                <li><a href="#">뉴스&팩트체크</a></li>
+                <li><a href="#">허위조작정보신고</a></li>
+                <li><a href="#">홍보자료</a></li>
+                <li><a href="#">Q&A모음</a></li>
+                <li><a href="#">알림서식</a></li>
+            </ul>
+        </nav>
+        <div id="tableArea1">
+            <table id="table1">
+                <caption>
+                    <h2>시도별 일일 접종 현황</h2>
+                    <hr>
+                    <h3>접종실적 총괄 <small>(06.14., 00시 기준)</small> </h3>
+                </caption>
+                <thead>
+                    <tr>
+                        <th>구분</th>
+                        <th>1차접종</th>
+                        <th>2차접종</th>
+                        <th>3차접종</th>
+                        <th>4차접종</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>당일누적
+                            <span class="red">A</span> + <span class="blue">B</span>
+                        </th>
+                        <td>45,061,152</td>
+                        <td>44,610,957</td>
+                        <td>33,338,740</td>
+                        <td>4,268,918</td>
+                    </tr>
+                    <tr>
+                        <th>당일실적 <span class="red">A</span></th>
+                        <td>322</td>
+                        <td>849</td>
+                        <td>2,570</td>
+                        <td>10,683</td>
+                    </tr>
+                    <tr>
+                        <th>전일누적 <span class="blue">B</span></th>
+                        <td>45,060,830</td>
+                        <td>44,610,108</td>
+                        <td>33,336,170</td>
+                        <td>4,258,235</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="tableArea2">
+            <table id="table2">
+                <caption>
+                    <h3>시도별 접종 현황</h3>
+                </caption>
+                <thead>
+                    <tr>
+                        <th rowspan="2">구분</th>
+                        <th colspan="2">1차접종</th>
+                        <th colspan="2">2차접종</th>
+                        <th colspan="2">3차접종</th>
+                        <th colspan="2">4차접종</th>
+                    </tr>
+                    <tr>
+                        <th>당일실적</th>
+                        <th>당일누계</th>
+                        <th>당일실적</th>
+                        <th>당일누계</th>
+                        <th>당일실적</th>
+                        <th>당일누계</th>
+                        <th>당일실적</th>
+                        <th>당일누계</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="sum">
+                        <th>합계</th>
+                        <td>322</td>
+                        <td>45,061,152</td>
+                        <td>849</td>
+                        <td>44,610,957</td>
+                        <td>2,570</td>
+                        <td>33,338,740</td>
+                        <td>10,683</td>
+                        <td>4,268,918</td>
+                    </tr>
+                    <tr>
+                        <th>서울</th>
+                        <td>73</td>
+                        <td>8,335,637</td>
+                        <td>163</td>
+                        <td>8,254,039</td>
+                        <td>595</td>
+                        <td>6,008,333</td>
+                        <td>1,932</td>
+                        <td>690,210</td>
+                    </tr>
+                    <tr>
+                        <th>부산</th>
+                        <td>73</td>
+                        <td>8,335,637</td>
+                        <td>163</td>
+                        <td>8,254,039</td>
+                        <td>595</td>
+                        <td>6,008,333</td>
+                        <td>1,932</td>
+                        <td>690,210</td>
+                    </tr>
+                    <tr>
+                        <th>대구</th>
+                        <td>73</td>
+                        <td>8,335,637</td>
+                        <td>163</td>
+                        <td>8,254,039</td>
+                        <td>595</td>
+                        <td>6,008,333</td>
+                        <td>1,932</td>
+                        <td>690,210</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+
+</html>
