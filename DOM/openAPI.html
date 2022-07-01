@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" name="sido" id="sido" placeholder="입력하세요">
+    <select name="sidolist" id="sidolist">
+        <option value="all">---전체---</option>
+    </select>
+    <button id="search">조회</button><br>
+    <div id="show"></div>
+
+    <script>
+        let centerList = '';
+
+        //조회버튼클릭시
+        document.getElementById('search').addEventListener('click',findSido);
+        function findSido(e){
+            console.log(e.target.nodeName)
+            
+            let keyWord = document.getElementById('sido').value;
+            if(e.target.nodeName == 'SELECT'){
+                keyWord = e.target.value;
+            }
+
+            if(!keyWord){
+                alert('검색할 시도를 입력하세요.');
+                return;
+            }
+            
+            let filterList = centerList.filter(center => center.sido.includes(keyWord));
+
+            let tbody = document.createElement('tbody');
+            filterList.forEach(center => {
+                //console.log(center.id,center.sido,center.phoneNumber,center.centerName);
+                let tr = document.createElement('tr');
+                for(field in fields){
+                    let td = document.createElement('td');
+                    td.innerHTML = center[field];
+                    tr.append(td);
+                }
+                tbody.append(tr);
+            });
+            //이미존재하는 tbody삭제
+            document.querySelector('#show>table>tbody').remove();
+            document.querySelector('#show>table').append(tbody);
+
+        }
+
+
+        console.log(centerList);
+
+
+
+        let fields = {
+            id: '시도ID',
+            sido: '시도',
+            phoneNumber: '전화번호',
+            centerName: '센터이름',
+            address:'주소'
+        };
+
+
+
+        let xhtp = new XMLHttpRequest();
+        let url = 'https://api.odcloud.kr/api/15077586/v1/centers?page=1&perPage=284&serviceKey=ZgGsHjyOx8py1OfliU9izUXYx3oQyh8FtcypUoqHLPHPYDPSpOfTuzeNn5z3vOX2%2BDA1%2BkG9HV8ihCNY9d3ibw%3D%3D';
+        
+        xhtp.open('get' , url);
+        xhtp.send();
+        xhtp.onload = showList;
+        function showList() {
+            let result = JSON.parse(this.responseText);
+            console.log(result.data[0]); //xml->this.responseXML
+            centerList = result.data; //ajax호출된후centerlist에 값을 저장
+
+            //select option
+            let sidoList = []; //centerlist중복된값 group지어넣기 indexof.foreach..push
+            
+            centerList.forEach(totalSido =>{
+                // console.log(totalSido.sido)
+                if(sidoList.indexOf(totalSido.sido) == -1){//없으면
+                    sidoList.push(totalSido.sido);
+                }
+            });
+            console.log(sidoList);//총17개
+             
+            let select = document.getElementById('sidolist');
+            
+            sidoList.forEach(sido => {
+                let option = document.createElement('option')
+                option.setAttribute('value',sido);
+                option.innerHTML = sido;
+                select.append(option);
+            })
+
+            select.addEventListener('change',findSido);
+
+
+            
+
+
+            //table
+            let table = document.createElement('table');
+            table.setAttribute('border','1');
+
+
+            //thead
+            let thead = document.createElement('thead');
+            let tr = document.createElement('tr');
+            thead.append(tr);
+            for(let field in fields){
+                let td = document.createElement('th');
+                td.innerHTML = fields[field];
+                tr.append(td);
+            }
+
+
+            //tbody
+            let tbody = document.createElement('tbody');
+            result.data.forEach(center => {
+                //console.log(center.id,center.sido,center.phoneNumber,center.centerName);
+                let tr = document.createElement('tr');
+                for(field in fields){
+                    let td = document.createElement('td');
+                    td.innerHTML = center[field];
+                    tr.append(td);
+                }
+                tbody.append(tr);
+            });
+
+            
+            table.append(thead,tbody);
+            document.getElementById('show').append(table);
+        };
+    </script>
+</body>
+</html>

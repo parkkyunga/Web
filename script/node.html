@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul>
+        <li>Apple</li>
+        <li>Banana</li>
+        <li>Cherry</li>
+    </ul>
+    <div>
+        <h3>cities</h3>
+        <ul>
+            <li id="one" class="red">Seoul</li>
+            <li id="two" class="red">London</li>
+            <li id="three" class="red">Newyork</li>
+            <li id="four">Tokyo</li>
+        </ul>
+    </div>
+    <button id="add1">click</button>
+    <button>click</button>
+</body>
+
+<script>
+    let list = document.getElementsByTagName('li'); //HTMLcollection
+    let detail = list[3];
+    let attNode = detail.getAttribute('id')
+    let txtNode = detail.childNodes[0]
+    //console.log(detail, attNode, txtNode)
+
+    let add1 = document.getElementById('add1')
+    add1.addEventListener('click', function () {
+
+        //element node 생성
+        let li = document.createElement('li')
+        li.innerHTML = '대구';
+        let ul = document.querySelector('div > ul')
+        ul.appendChild(li) //<ul><li>대구</li></ul>
+        console.log(ul)
+
+    })
+
+    let btns = document.querySelectorAll('button') //NodeList
+    btns[1].addEventListener('click',function(){
+       document.querySelector('div > ul > li').remove()
+    });
+    console.log(btns[1])
+</script>
+
+</html>

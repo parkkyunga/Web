@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table{
+            border-collapse: collapse;
+            border: 1px solid gray;
+        }
+        td,th{
+            padding: 10px;
+            border: 1px solid gray;
+            width: 50px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- <input type="file" id="selectFile" name="selectFile" accept="text/plain"><br> -->
+    <ul>
+        <li>Apple</li>
+        <li>Banana</li>
+        <li>Cherry</li>
+    </ul>
+
+    <!-- <script src="js2/array_method_join.js"></script> -->
+     
+    <button id="add">click</button> 
+    <script>
+        let lis = document.getElementsByTagName('li')
+        console.log(lis);
+        lis[0].remove();
+
+        let btn = document.getElementById('add')
+        console.log(btn)
+        btn.addEventListener('click',function(){
+          //  alert('버튼을 클릭했습니다')
+          console.log(this)//window(x), object(x),eventTarger(o)
+        })
+    </script>
+</body>
+</html>

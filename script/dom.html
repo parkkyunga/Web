@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    table {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+
+    td,
+    tr {
+        border: 1px solid black;
+    }
+</style>
+
+<body>
+    <div id="show">
+
+    </div>
+
+    <script>
+        let students = [{
+            sno: 1,
+            sname: '이희수'
+        }, {
+            sno: 2,
+            sname: '권소정'
+        }, {
+            sno: 3,
+            sname: '김하은'
+        }];
+        //Document Object Model => object:속성,기능
+        let show = document.getElementById('show');
+
+        show.appendChild(makeTable())
+
+        function makeTable() {
+            let table = document.createElement('table');
+            students.forEach(elem => {
+                let tr = document.createElement('tr');
+                let td = '';
+                for (let i in elem) {
+                    td = document.createElement('td');
+                    tr.appendChild(td);
+                    let stdInfo = document.createTextNode(elem[i]);
+                    console.log(stdInfo);
+                    td.appendChild(stdInfo);
+                    table.appendChild(tr);
+                }
+
+
+                //    let td1 = document.createElement('td');
+                //    let td2 = document.createElement('td');
+                //    let sno = document.createTextNode(`${elem.sno}`);
+                //    let sname = document.createTextNode(`${elem.sname}`);
+                //    td1.appendChild(sno);
+                //    td2.appendChild(sname);
+                //    tr.appendChild(td1);
+                //    tr.appendChild(td2);
+                //    table.appendChild(tr);
+                //    console.log(table);
+            });
+            console.log(table);
+            return table;
+        };
+
+
+        //요소생성.createElement
+        show.appendChild(makeUL());
+
+        function makeUL() {
+            let ul = document.createElement('ul');
+            students.forEach(elem => {
+                let li = document.createElement('li');
+                li.setAttribute('id', elem.sno); //attr추가 => id값으로 sno설정
+
+                let txt = document.createTextNode(`${elem.sno}, ${elem.sname}`);
+                li.appendChild(txt);
+                console.log(li);
+                ul.appendChild(li);
+            });
+            //show.appendChild(ul); //부모요소show에 +자식요소ul
+            //console.log(ul);
+            return ul;
+        };
+    </script>
+</body>
+
+</html>

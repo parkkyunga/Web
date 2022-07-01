@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dom/member.html</title>
+    <style>
+        form {
+            border: 2px solid green;
+        }
+
+        form>label {
+            display: inline-block;
+            width: 25%;
+            background-color: rgb(211, 255, 154);
+        }
+
+        input[name='phone'] {
+            background-color: bisque;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 회원번호, 회원이름, 연락처, 생년월일 -->
+    <form action="" name="memberForm">
+        <label for="memberId">회원번호</label>
+        <input type="number" name="memberId" id="memberId"><br>
+        <label for="memberId">회원이름</label>
+        <input type="text" name="memberName" id="memberName"><br>
+        <label for="memberId">연락처</label>
+        <input type="text" name="phone" id="phone"><br>
+        <label for="memberId">생년월일</label>
+        <input type="date" name="birth" id="birth"><br>
+        <input type="submit" value="저장">
+        <input type="button" value="수정">
+        <input type="button" value="선택삭제">
+    </form><br>
+    <div id="show">
+        <table border="1" style="border-collapse:collapse">
+            <thead>
+                <tr>
+                    <th>회원번호</th>
+                    <th>회원이름</th>
+                    <th>연락처</th>
+                    <th>생년월일</th>
+                    <th>삭제</th>
+                    <th><input type="checkbox" name="" id="selectedCheck"></th>
+                </tr>
+            </thead>
+            <tbody id="list"></tbody>
+        </table>
+    </div>
+
+    <script>
+        let data = [{
+            member_id: 111111,
+            member_name: '홍길동',
+            phone: '010-1111-2222',
+            birth: '2000-05-01'
+        }, {
+            member_id: 111122,
+            member_name: '김철수',
+            phone: '010-3333-4444',
+            birth: '2001-03-07'
+        }, {
+            member_id: 111133,
+            member_name: '김영희',
+            phone: '010-5555-6666',
+            birth: '1999-02-01'
+        }]; //db정보
+
+        function showList() {
+            let tbody = document.getElementById('list');
+
+            //반복tr>td*4 
+            data.forEach(elem => {
+                tbody.appendChild(makeTr(elem));
+            })
+        }
+
+        showList();
+
+        document.querySelector('form[name="memberForm"]').addEventListener('submit', saveMember);
+
+        //신규멤버등록
+        function saveMember(evnt) {
+            evnt.preventDefault(); //기본이벤트의 기본기능차단
+            console.log(document.forms);
+
+            let mId = document.forms['memberForm'].memberId.value; //<input id='memberId'>
+            let mName = document.forms['memberForm']['memberName'].value;
+            let mPhone = document.forms[0].phone.value;
+            let mBirth = document.forms.memberForm.birth.value;
+            if (mId == '' || mName == '' || mPhone == '' || mBirth == '') {
+                alert('항목입력을 완료하세요.')
+                return;
+            }
+
+            //중복체크
+            let ids = document.querySelectorAll('#list>tr>td:nth-child(1)');
+            let exists = false;
+            for (let id of ids) {
+                if (id.textContent == mId) {
+                    exists = true;
+                    break;
+                }
+            }
+            if (exists) {
+                alert('이미 존재하는 회원번호입니다.')
+                return;
+            }
+
+            let member = {
+                member_id: mId,
+                member_name: mName,
+                phone: mPhone,
+                birth: mBirth
+            };
+
+            let tr = makeTr(member);
+            let tbody = document.getElementById('list');
+            tbody.appendChild(tr);
+
+            //초기화
+            document.forms['memberForm'].memberId.value = '';
+            document.forms['memberForm']['memberName'].value = '';
+            document.forms[0].phone.value = null;
+            document.forms.memberForm.birth.value = '';
+            document.forms['memberForm'].memberId.focus();
+        }
+
+        //수정
+        document.querySelector('input[type="button"]').addEventListener('click', changeMember);
+
+        function changeMember() {
+            let mId = document.forms.memberForm.memberId.value; //찾을 id
+            let mName = document.forms.memberForm.memberName.value;
+            let mPhone = document.forms.memberForm.phone.value;
+            let mBirth = document.forms.memberForm.birth.value;
+
+            let trAry = document.querySelectorAll('#list>tr')
+            for (let i = 0; i < trAry.length; i++) {
+                if (mId == trAry[i].children[0].textContent) {
+                    trAry[i].children[1].textContent = mName;
+                    trAry[i].children[2].textContent = mPhone;
+                    trAry[i].children[3].textContent = mBirth;
+                    break;
+                }
+            }
+
+            console.log(trAry)
+        }
+
+        //선택삭제
+        document.querySelector('input[value="선택삭제"]').addEventListener('click', deleteChecked);
+
+        function deleteChecked() {
+            let checkTr = document.querySelectorAll('#list>tr')
+            checkTr.forEach(tr => {
+                if (tr.childNodes[5].children[0].checked) {
+                    tr.remove();
+                }
+            })
+        }
+
+        //전체선택,전체해제
+        document.querySelector('input[id="selectedCheck"]').addEventListener('change', function () {
+            let checkTr = document.querySelectorAll('#list>tr');
+
+            checkTr.forEach(tr => {
+                if (tr.childNodes[5].children[0].checked == false) {
+                    tr.childNodes[5].children[0].checked = true;
+                } else {
+                    tr.childNodes[5].children[0].checked = false;
+                }
+            });
+        })
+
+
+
+        //회원 =>tr생성
+        function makeTr(member = {}) {
+            let tr = document.createElement('tr');
+            tr.addEventListener('click', function () {
+                //tr클릭하면 tr>td값 , input창에 들어가게
+                console.log('click tr');
+                console.log(tr)
+                document.getElementById('memberId').value = this.childNodes[0].textContent;
+                document.getElementById('memberName').value = this.childNodes[1].textContent;
+                document.getElementById('phone').value = this.childNodes[2].textContent;
+                document.getElementById('birth').value = this.childNodes[3].textContent;
+            }, false); // default : false(버블링)
+
+            for (let field in member) {
+                let td = document.createElement('td');
+                let txt = document.createTextNode(member[field]);
+                td.appendChild(txt);
+                tr.appendChild(td);
+            }
+            //삭제버튼<td><button>삭제</td></button>
+            let td = document.createElement('td');
+            let btn = document.createElement('button'); //btn:object{}
+
+            //btn.onclick = function(){}
+            btn.addEventListener('click', (e) => {
+                console.log(e)
+                e.stopPropagation();
+                e.target.parentElement.parentElement.remove();
+                //this.parentElement.parentElement.remove();//<tr><td><button> 버튼의 부모,부모요소
+            });
+
+            btn.textContent = '삭제';
+
+            td.appendChild(btn);
+            tr.appendChild(td);
+
+            //checkbox
+            td = document.createElement('td');
+            td.addEventListener('click', function (e) {
+                console.log('click td')
+                e.stopPropagation();
+            }, false)
+            let ck = document.createElement('input');
+            ck.setAttribute('type', 'checkbox');
+            ck.addEventListener('click', function (e) {
+                console.log('click ckeckbox')
+                e.stopPropagation(); //이벤트전파중단
+
+                //checkbox전체건수와 체크된 건수를 비교해서 같으면 전체선택,아니면 전체해제
+                let chkCnt = document.querySelectorAll('#list>tr>td>input[type="checkbox"]:checked').length;
+                let allCnt = document.querySelectorAll('#list>tr>td>input[type="checkbox"]').length;
+                console.log(chkCnt,allCnt)
+                if (document.querySelector('#selectedCheck').checked = chkCnt == allCnt) {
+                    document.querySelector('#selectedCheck').checked = true;
+                } else {
+                    document.querySelector('#selectedCheck').checked = false;
+                }
+            }, false)
+
+            td.appendChild(ck)
+            tr.appendChild(td);
+
+            return tr;
+        }
+
+        /*
+        function saveFnc() {
+            event.preventDefault();
+            console.log('saveFnc call')
+
+            let mi = document.getElementById('memberId').value;
+            let mn = document.querySelector('#memberName').value;
+            let ph = document.getElementsByTagName('input')[2].value;
+            let bt = document.querySelector('form>input:nth-child(11)').value;
+
+            console.log(`id : ${mi}, name : ${mn} , phone : ${ph} , birth : ${bt}`)
+            let fields = [mi, mn, ph, bt];
+
+            //dom => <table><tr><td>mi</td><td>mn</td>..
+            let table = document.createElement('table');
+            table.setAttribute('border', '1')
+            let tr = document.createElement('tr');
+
+            for (let field of fields) {
+                let td = document.createElement('td');
+                let txt = document.createTextNode(field);
+                td.appendChild(txt);
+                tr.appendChild(td);
+            }
+            table.appendChild(tr);
+            document.body.appendChild(table);
+
+            console.log(table)
+        }*/
+    </script>
+</body>
+
+</html>
